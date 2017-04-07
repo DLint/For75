@@ -12,9 +12,10 @@
 	#bigImgDiv {background-color: #F0F0F0;padding: 5% 10%;width: 80%;overflow-x: auto;white-space:nowrap;}
 	#bigImgDiv img {width: 12em;}
 	#inputDiv {width: 100%;margin-top: 1em;text-align: center;}
+	select {padding: .1em 1.6em .1em .1em;border: 1px solid #ccc;border-radius: 3px;}
 	input {width: 25%;font-size: 1.1em;border: 1px solid #ccc;border-radius: 3px;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s}
 	input:focus {border-color: #66afe9;outline: 0;box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)}
-	.smallbutton {width: 40%;margin: 1em 0;display: inline-block;outline: none;text-align: center;text-decoration: none;padding: .3em .5em;border-radius: .4em;color: #FFFFFF;border: 0;background: #75a2d8;}
+	.smallButton {width: 40%;margin: 1em 0;display: inline-block;outline: none;text-align: center;text-decoration: none;padding: .3em .5em;border-radius: .4em;color: #FFFFFF;border: 0;background: #75a2d8;}
 </style>
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
@@ -22,6 +23,7 @@
 	function searchImg(importdata) {
 		$('#smallImgDiv').html("");
 		$('body img').remove();
+		var team = $('#team').val();
 		var yearMonth = Number($('#yearMonth').val());
 		var startNum = Number($('#startNum').val());
 		if (importdata) {
@@ -33,15 +35,15 @@
 			$('#startNum').val(startNum);
 		}
 		for (var i = startNum; i <= endNum; i++) {
-			$('#smallImgDiv').append('<img src="http://dwd7slh0nmufg.cloudfront.net/img/products/HK-245-'+yearMonth+'-'+i+'_p01_80.jpg" onclick="showAll('+i+');">');
+			$('#smallImgDiv').append('<img src="http://dwd7slh0nmufg.cloudfront.net/img/products/'+team+'-'+yearMonth+'-'+i+'_p01_80.jpg" onclick="showAll(\''+team+'\', \''+yearMonth+'\', '+i+');">');
 		}
 	}
 
 	// 根据所点击图片的编号信息显示该编号对应月别全部高清图片
-	function showAll(importdata) {
+	function showAll(importteam, importdate, importnum) {
 		$('#bigImgDiv img').remove();
 		for (var i = 1; i <= 5; i++) {
-			$('#bigImgDiv').append('<img src="http://dwd7slh0nmufg.cloudfront.net/img/products/HK-245-1703-'+importdata+'_p0'+i+'_500.jpg"><span> </span>');
+			$('#bigImgDiv').append('<img src="http://dwd7slh0nmufg.cloudfront.net/img/products/'+importteam+'-'+importdate+'-'+importnum+'_p0'+i+'_500.jpg"><span> </span>');
 		}
 	}
 </script>
@@ -49,10 +51,14 @@
 	<div id="smallImgDiv">在下方输入查询条件后可向前或向后查询100张图片地址（查询时间大约5秒），点击查询按钮时查询条件会默认更改（也就是说可以一直点按钮不需要重新输入），查询结果为小图，点击小图后显示该套生写大图（长按或右键保存即可）</div>
 	<div id="bigImgDiv"></div>
 	<div id="inputDiv">
+		<select id="team" name="team">
+			<option value="HK-245">HKT</option>
+			<option value="AK-003">AKB</option>
+		</select><br><br>
 		月别年月：<input type="text" id="yearMonth" placeholder="eg:1703">
-		起始数字：<input type="text" id="startNum" placeholder="eg:13304">
-		<button id="searchBefore" class="smallbutton" onclick="searchImg(0)">查询前100张</button>
-		<button id="searchAfter" class="smallbutton" onclick="searchImg(1)">查询后100张</button>
+		起始数字：<input type="text" id="startNum" placeholder="eg:13304"><br><br>
+		<button id="searchBefore" class="smallButton" onclick="searchImg(0)">查询前100张</button>
+		<button id="searchAfter" class="smallButton" onclick="searchImg(1)">查询后100张</button>
 	</div>
 </body>
 </html>
